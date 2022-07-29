@@ -12,32 +12,36 @@ namespace Pokedex_v2_api.Repository
         }
         public async Task<IEnumerable<Pokemon>> GetAll()
         {
-            var pokemons =  await _context.Pokemon.ToListAsync();
+            var pokemons =  await _context.favorites.ToListAsync();
             return pokemons;
         }
         public async Task<Pokemon> GetById(long id)
         {
-            var pokemon = await _context.Pokemon.FindAsync(id);
+            var pokemon = await _context.favorites.FindAsync(id);
+            if(pokemon == null) return null;
             return pokemon;
         }
 
         public async Task<Pokemon> Create(Pokemon pokemon)
         {
-            _context.Pokemon.Add(pokemon);
+            _context.favorites.Add(pokemon);
             await _context.SaveChangesAsync();
 
             return pokemon;
         }
-        public async Task<Pokemon> Update(Pokemon pokemon)
-        {
-            _context.Entry(pokemon).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-        }
         public async Task Delete(long id)
         {
-            var pokemonDelete = await _context.Pokemon.FindAsync(id);
-            _context.Pokemon.Remove(pokemonDelete);
-            await _context.SaveChangesAsync();
+            var pokemonDelete = await _context.favorites.FindAsync(id);
+            try
+            {
+                _context.favorites.Remove(pokemonDelete);
+                await _context.SaveChangesAsync();
+            }
+            catch(InvalidCastException e)
+            {
+                Console.WriteLine(e);
+            }
+       
         }
     }
 }

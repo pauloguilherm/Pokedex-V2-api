@@ -9,6 +9,6 @@ namespace Pokedex_v2_api.Model
             Database.EnsureCreated();
         }
 
-        public DbSet<Pokemon> Pokemon { get; set; }
+        public DbSet<Pokemon> favorites { get; set; }
     }
 }
