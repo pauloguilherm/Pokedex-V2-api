@@ -5,7 +5,7 @@ using Pokedex_v2_api.Repository;
 
 namespace Pokedex_v2_api.Controllers
 {
-    [Route("apipokemon")]
+    [Route("api/pokemon")]
     public class PokemonController : ControllerBase
     {
         private readonly IPokemonRepository _pokemonRepository;
@@ -33,7 +33,7 @@ namespace Pokedex_v2_api.Controllers
         }
 
         [HttpPost]
-        [Route("Favorite")]
+        [Route("AddFavorite")]
         [Authorize]
         public async Task<ActionResult<Pokemon>> CatchPokemon(Pokemon pokemon)
         {

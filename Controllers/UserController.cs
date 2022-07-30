@@ -24,8 +24,8 @@ namespace Pokedex_v2_api.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<dynamic>> SignIn([FromBody] User user)
         {
-            var login = _userRepository.GetUser(user);
-            if(login.Result == null)
+            var userData = _userRepository.GetUser(user);
+            if(userData == null)
             {
                 return NotFound(new { message = "Usuário ou senha inválidos" });
             };
@@ -35,7 +35,7 @@ namespace Pokedex_v2_api.Controllers
             user.Password = "";
             return new
             {
-                user = user,
+                user = userData,
                 token = tokenGenerated,
             };
         }
@@ -51,13 +51,9 @@ namespace Pokedex_v2_api.Controllers
             {
                 return NotFound(new {message = "Usuário ou email já cadastrados"});
             }
-            var token = new TokenService(_configuration);
-            var tokenGenerated = token.GenerateToken(user);
-            user.Password = "";
             return new
             {
-                user = user,
-                token = tokenGenerated,
+                user = createdUser,
             };
         }
     }

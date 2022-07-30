@@ -11,7 +11,7 @@ namespace Pokedex_v2_api.Repository
             _context = context;
         }
 
-        public async Task<User> CreateUser(User user)
+        public async Task<dynamic> CreateUser(User user)
         {
             var existUser = _context.user.Where(u => u.Name == user.Name || u.Email == user.Email).FirstOrDefault();
             if(existUser != null)
@@ -20,17 +20,20 @@ namespace Pokedex_v2_api.Repository
             }
             await _context.user.AddAsync(user);
             await _context.SaveChangesAsync();
-            return user;
+            var formattedUser = new { name = user.Name, email = user.Email };
+            return formattedUser;
         }
 
-        public async Task<User> GetUser(User user)
+        public dynamic GetUser(User user)
         {
-            var userName = _context.user.Where(u => u.Name == user.Name && u.Password == user.Password).FirstOrDefault();
-            if (userName == null)
+            var validateUser = _context.user.Where(u => u.Email == user.Email && u.Password == user.Password).FirstOrDefault();
+            if (validateUser == null)
             {
                 return null;
             }
-            return user;
+            var formattedUser = new { id = validateUser.Id, name = validateUser.Name, email = validateUser.Email };
+
+            return formattedUser;
         }
         public async Task<User> GetUserById(long id)
         {
