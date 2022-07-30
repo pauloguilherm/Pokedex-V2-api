@@ -1,5 +1,4 @@
-﻿using Pokedex_v2_api.Model;
-using System.Linq;
+﻿using Pokedex_v2_api.Models;
 
 namespace Pokedex_v2_api.Repository
 {
@@ -8,6 +7,6 @@ namespace Pokedex_v2_api.Repository
         Task<IEnumerable<Pokemon>> GetAll();
         Task<Pokemon> GetById(long id);
         Task<Pokemon> Create(Pokemon pokemon);
-        Task Delete(long id);
+        Task<Pokemon>  Delete(long id);
     }
 }

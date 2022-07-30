@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Pokedex_v2_api.Model;
+using Pokedex_v2_api.Models;
 
 namespace Pokedex_v2_api.Repository
 {
@@ -29,19 +29,17 @@ namespace Pokedex_v2_api.Repository
 
             return pokemon;
         }
-        public async Task Delete(long id)
+        public async Task<Pokemon> Delete(long id)
         {
             var pokemonDelete = await _context.favorites.FindAsync(id);
-            try
+
+            if(pokemonDelete == null)
             {
-                _context.favorites.Remove(pokemonDelete);
-                await _context.SaveChangesAsync();
+                return null;
             }
-            catch(InvalidCastException e)
-            {
-                Console.WriteLine(e);
-            }
-       
+            _context.favorites.Remove(pokemonDelete);
+            await _context.SaveChangesAsync();
+            return pokemonDelete;
         }
     }
 }

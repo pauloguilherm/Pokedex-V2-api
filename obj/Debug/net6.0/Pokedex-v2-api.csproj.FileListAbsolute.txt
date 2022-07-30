@@ -31,3 +31,11 @@ C:\Users\Guilhermee\Desktop\Projetos\Pokedex-V2-api\Pokedex-v2-api\obj\Debug\net
 C:\Users\Guilhermee\Desktop\Projetos\Pokedex-V2-api\Pokedex-v2-api\obj\Debug\net6.0\Pokedex-v2-api.pdb
 C:\Users\Guilhermee\Desktop\Projetos\Pokedex-V2-api\Pokedex-v2-api\obj\Debug\net6.0\Pokedex-v2-api.genruntimeconfig.cache
 C:\Users\Guilhermee\Desktop\Projetos\Pokedex-V2-api\Pokedex-v2-api\obj\Debug\net6.0\ref\Pokedex-v2-api.dll
+C:\Users\Guilhermee\Desktop\Projetos\Pokedex-V2-api\Pokedex-v2-api\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Guilhermee\Desktop\Projetos\Pokedex-V2-api\Pokedex-v2-api\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Guilhermee\Desktop\Projetos\Pokedex-V2-api\Pokedex-v2-api\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Guilhermee\Desktop\Projetos\Pokedex-V2-api\Pokedex-v2-api\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Guilhermee\Desktop\Projetos\Pokedex-V2-api\Pokedex-v2-api\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Guilhermee\Desktop\Projetos\Pokedex-V2-api\Pokedex-v2-api\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Guilhermee\Desktop\Projetos\Pokedex-V2-api\Pokedex-v2-api\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Guilhermee\Desktop\Projetos\Pokedex-V2-api\Pokedex-v2-api\bin\Debug\net6.0\System.Security.Permissions.dll

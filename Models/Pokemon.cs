@@ -1,4 +1,4 @@
-﻿namespace Pokedex_v2_api.Model
+﻿namespace Pokedex_v2_api.Models
 {
     public class Pokemon
     {
