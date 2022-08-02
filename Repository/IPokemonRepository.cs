@@ -4,9 +4,9 @@ namespace Pokedex_v2_api.Repository
 {
     public interface IPokemonRepository
     {
-        Task<IEnumerable<Pokemon>> GetAll();
+        Task<dynamic> GetAll(long id);
         Task<Pokemon> GetById(long id);
         Task<Pokemon> Create(Pokemon pokemon);
-        Task<Pokemon>  Delete(long id);
+        Task<dynamic> Delete(long id);
     }
 }

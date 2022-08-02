@@ -10,9 +10,11 @@ namespace Pokedex_v2_api.Repository
         {
             _context = context;
         }
-        public async Task<IEnumerable<Pokemon>> GetAll()
+        public async Task<dynamic> GetAll(long id)
         {
-            var pokemons =  await _context.favorites.ToListAsync();
+            var pokemons = _context.favorites.Select(x => new {x.Id, x.Name }).Where(x => x.Id == id);
+
+
             return pokemons;
         }
         public async Task<Pokemon> GetById(long id)
@@ -24,22 +26,36 @@ namespace Pokedex_v2_api.Repository
 
         public async Task<Pokemon> Create(Pokemon pokemon)
         {
-            _context.favorites.Add(pokemon);
-            await _context.SaveChangesAsync();
-
-            return pokemon;
-        }
-        public async Task<Pokemon> Delete(long id)
-        {
-            var pokemonDelete = await _context.favorites.FindAsync(id);
-
-            if(pokemonDelete == null)
+            try
+            {
+                _context.favorites.Add(pokemon);
+                await _context.SaveChangesAsync();
+                return pokemon;
+            }
+            catch
             {
                 return null;
             }
-            _context.favorites.Remove(pokemonDelete);
-            await _context.SaveChangesAsync();
-            return pokemonDelete;
+           
+        }
+        public async Task<dynamic> Delete(long id)
+        {
+            var pokemonsForDeleted = _context.favorites.Select(x => x).Where(x => x.Id == id);
+            try
+            {
+                foreach (var pokemon in pokemonsForDeleted)
+                {
+                    _context.favorites.Remove(pokemon);
+                };
+
+                await _context.SaveChangesAsync();
+                return new { success = true };
+            }
+            catch
+            {
+                return new { success = false };
+            }
+            
         }
     }
 }

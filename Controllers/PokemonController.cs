@@ -16,42 +16,30 @@ namespace Pokedex_v2_api.Controllers
         }
 
         [HttpGet]
-        [Route("GetFavorites")]
-        [Authorize]
-        public async Task<IEnumerable<Pokemon>> GetPokemon()
+        [Route("GetFavorites/{id?}")] 
+        public async Task<ActionResult<dynamic>> GetPokemons(long id)
         {
-            return await _pokemonRepository.GetAll();
-        }
-
-        [HttpGet("{id}")]
-        [Route("GetFavorite")]
-        [Authorize]
-        public async Task<ActionResult<Pokemon>> GetPokemonById(long id)
-        {
-            var pokemon = await _pokemonRepository.GetById(id);
-            return pokemon == null ? NotFound("Pokemon not found.") : pokemon;
+            return await _pokemonRepository.GetAll(id);
         }
 
         [HttpPost]
         [Route("AddFavorite")]
         [Authorize]
-        public async Task<ActionResult<Pokemon>> CatchPokemon(Pokemon pokemon)
+        public async Task<ActionResult<dynamic>> CatchPokemon([FromBody] Pokemon pokemon)
         {
             var pokemons = await _pokemonRepository.Create(pokemon);
-            return pokemons == null ?  BadRequest() : Ok(pokemons);
+            if(pokemons == null)
+            {
+                return new { success = false, message = "error catching pokemon" };
+            }
+            return new { success = true, message = "Pokemon captured" };
         }
 
-        [HttpDelete("{id}")]
-        [Route("DeleteFavorite")]
-        [Authorize]
-        public async Task<ActionResult<Pokemon>> DropPokemon(long id)
+        [HttpDelete]
+        [Route("DeleteFavorite/{id?}")]
+        public async Task<dynamic> DropPokemon(long id)
         {
-            var pokemonForDrop = await _pokemonRepository.GetById(id);
-            if (pokemonForDrop == null)
-            {
-                return NotFound("Pokemon not found");
-            };
-            return await _pokemonRepository.Delete(pokemonForDrop.Id);
+            return _pokemonRepository.Delete(id);
         }
     }
 }
