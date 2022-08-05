@@ -15,16 +15,20 @@ namespace Pokedex_v2_api.Controllers
             _pokemonRepository = pokemonRepository;
         }
 
-        [HttpGet]
-        [Route("GetFavorites/{id?}")] 
+        [HttpGet("{id}")]
+        [Route("GetFavorites/{id?}")]
         public async Task<ActionResult<dynamic>> GetPokemons(long id)
         {
-            return await _pokemonRepository.GetAll(id);
+            var pokemons = await _pokemonRepository.GetAll(id);
+            if(pokemons == null)
+            {
+                return NotFound(new { success = false, message = "Pokemons not found"});
+            }
+            return Ok(new { success = true, data = pokemons});
         }
 
         [HttpPost]
         [Route("AddFavorite")]
-        [Authorize]
         public async Task<ActionResult<dynamic>> CatchPokemon([FromBody] Pokemon pokemon)
         {
             var pokemons = await _pokemonRepository.Create(pokemon);
@@ -32,14 +36,21 @@ namespace Pokedex_v2_api.Controllers
             {
                 return new { success = false, message = "error catching pokemon" };
             }
-            return new { success = true, message = "Pokemon captured" };
+            return new { success = true, message = pokemons.Name  + " Captured" };
         }
 
         [HttpDelete]
-        [Route("DeleteFavorite/{id?}")]
-        public async Task<dynamic> DropPokemon(long id)
+        [Route("DeleteFavorite")]
+
+
+        public async Task<ActionResult<dynamic>> DropPokemon([FromBody] Pokemon pokemon)
         {
-            return _pokemonRepository.Delete(id);
+            var pokemonForDelete =  await _pokemonRepository.Delete(pokemon);
+            if(pokemonForDelete == null)
+            {
+                return BadRequest();
+            }
+            return Ok(new { success = true, data = pokemon });
         }
     }
 }

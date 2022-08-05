@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Pokedex_v2_api.Models;
+﻿using Pokedex_v2_api.Models;
 
 namespace Pokedex_v2_api.Repository
 {
@@ -12,18 +11,13 @@ namespace Pokedex_v2_api.Repository
         }
         public async Task<dynamic> GetAll(long id)
         {
-            var pokemons = _context.favorites.Select(x => new {x.Id, x.Name }).Where(x => x.Id == id);
-
-
+            var pokemons = _context.favorites.Select(x => x).Where(x => x.CoachId == id);
+            if(pokemons == null)
+            {
+                return null;
+            }
             return pokemons;
         }
-        public async Task<Pokemon> GetById(long id)
-        {
-            var pokemon = await _context.favorites.FindAsync(id);
-            if(pokemon == null) return null;
-            return pokemon;
-        }
-
         public async Task<Pokemon> Create(Pokemon pokemon)
         {
             try
@@ -38,24 +32,23 @@ namespace Pokedex_v2_api.Repository
             }
            
         }
-        public async Task<dynamic> Delete(long id)
+        public async Task<dynamic> Delete(Pokemon pokemon)
         {
-            var pokemonsForDeleted = _context.favorites.Select(x => x).Where(x => x.Id == id);
-            try
+            var pokemonForDelete = _context.favorites.FirstOrDefault(x => x.CoachId == pokemon.CoachId && x.Name == pokemon.Name);
+            if(pokemonForDelete != null)
             {
-                foreach (var pokemon in pokemonsForDeleted)
+                try
                 {
-                    _context.favorites.Remove(pokemon);
-                };
-
-                await _context.SaveChangesAsync();
-                return new { success = true };
+                    _context.favorites.Remove(pokemonForDelete);
+                    await _context.SaveChangesAsync();
+                    return new { success = true };
+                }
+                catch
+                {
+                    return null;
+                }
             }
-            catch
-            {
-                return new { success = false };
-            }
-            
+            return null;
         }
     }
 }
