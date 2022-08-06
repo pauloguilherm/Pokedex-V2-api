@@ -27,19 +27,19 @@ namespace Pokedex_v2_api.Controllers
             var userData = _userRepository.GetUser(user);
             if(userData == null)
             {
-                return new { success = false, message = "Email or password incorrect" };
+                return NotFound(new { success = false, message = "Email or password incorrect" });
             };
 
             var token = new TokenService(_configuration);
             var tokenGenerated = token.GenerateToken(user);
             user.Password = "";
-            return new
+            return Ok(new
             {
                 user = userData,
                 token = tokenGenerated,
                 success = true,
                 message = "login successfully"
-            };
+            });
         }
 
         [HttpPost]
@@ -51,14 +51,14 @@ namespace Pokedex_v2_api.Controllers
 
             if(createdUser == null)
             {
-                return new {success = false, message = "Username or email already registered" };
+                return BadRequest(new { success = false, message = "Username or email already registered" });
             }
-            return new
+            return Ok(new
             {
                 user = createdUser,
                 success = true,
                 message = "User created"
-            };
+            });
         }
     }
 }
