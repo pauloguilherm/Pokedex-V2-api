@@ -27,7 +27,7 @@ namespace Pokedex_v2_api.Controllers
             var userData = _userRepository.GetUser(user);
             if(userData == null)
             {
-                return NotFound(new { success = false, message = "Email or password incorrect" });
+                return NotFound();
             };
 
             var token = new TokenService(_configuration);
@@ -51,7 +51,7 @@ namespace Pokedex_v2_api.Controllers
 
             if(createdUser == null)
             {
-                return BadRequest(new { success = false, message = "Username or email already registered" });
+                return BadRequest();
             }
             return Ok(new
             {

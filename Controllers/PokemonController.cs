@@ -17,6 +17,7 @@ namespace Pokedex_v2_api.Controllers
 
         [HttpGet("{id}")]
         [Route("GetFavorites/{id?}")]
+        [Authorize]
         public async Task<ActionResult<dynamic>> GetPokemons(long id)
         {
             var pokemons = await _pokemonRepository.GetAll(id);
@@ -29,6 +30,7 @@ namespace Pokedex_v2_api.Controllers
 
         [HttpPost]
         [Route("AddFavorite")]
+        [Authorize]
         public async Task<ActionResult<dynamic>> CatchPokemon([FromBody] Pokemon pokemon)
         {
             var pokemons = await _pokemonRepository.Create(pokemon);
@@ -41,16 +43,16 @@ namespace Pokedex_v2_api.Controllers
 
         [HttpDelete]
         [Route("DeleteFavorite")]
-
+        [Authorize]
 
         public async Task<ActionResult<dynamic>> DropPokemon([FromBody] Pokemon pokemon)
         {
             var pokemonForDelete =  await _pokemonRepository.Delete(pokemon);
             if(pokemonForDelete == null)
             {
-                return BadRequest();
+                return BadRequest(new {success = false, message = "Error when deleting pokemon" });
             }
-            return Ok(new { success = true, data = pokemon });
+            return Ok(new { success = true, data = pokemon, message = pokemon.Name + " released" });
         }
     }
 }
