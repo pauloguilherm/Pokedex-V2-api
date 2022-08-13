@@ -2,9 +2,9 @@
 {
     public class Pokemon
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Coach { get; set; }
-        public long CoachId { get; set; }
+        public int CoachId { get; set; }
     }
 }

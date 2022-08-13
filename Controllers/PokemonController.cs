@@ -18,7 +18,7 @@ namespace Pokedex_v2_api.Controllers
         [HttpGet("{id}")]
         [Route("GetFavorites/{id?}")]
         [Authorize]
-        public async Task<ActionResult<dynamic>> GetPokemons(long id)
+        public async Task<ActionResult<dynamic>> GetPokemons(int id)
         {
             var pokemons = await _pokemonRepository.GetAll(id);
             if(pokemons == null)
@@ -36,9 +36,9 @@ namespace Pokedex_v2_api.Controllers
             var pokemons = await _pokemonRepository.Create(pokemon);
             if(pokemons == null)
             {
-                return new { success = false, message = "error catching pokemon" };
-            }
-            return new { success = true, message = pokemons.Name  + " Captured" };
+                return BadRequest(new { success = false, message = "error catching pokemon" });
+            };
+            return Ok(new { success = true, message = pokemons.Name + " Captured" });
         }
 
         [HttpDelete]

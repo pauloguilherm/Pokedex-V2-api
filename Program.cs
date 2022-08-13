@@ -5,6 +5,7 @@ using Pokedex_v2_api.Repository;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,9 +45,13 @@ builder.Services.AddAuthentication(x =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-var connection = builder.Configuration["ConnectionStrings:MySqlConnectionString"];
-builder.Services.AddDbContext<PokemonContext>(option => option.UseMySql(connection, ServerVersion.AutoDetect(connection)));
-builder.Services.AddDbContext<UserContext>(option => option.UseMySql(connection, ServerVersion.AutoDetect(connection)));
+var connection = builder.Configuration["ConnectionStrings:SqlServerConnection"];
+builder.Services.AddDbContextPool<PokemonContext>(option => 
+    option.UseSqlServer(connection)
+);
+builder.Services.AddDbContextPool<UserContext>(option => 
+    option.UseSqlServer(connection)
+);
 
 var app = builder.Build();
 

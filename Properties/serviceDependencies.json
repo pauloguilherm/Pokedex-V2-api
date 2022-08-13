@@ -4,6 +4,9 @@
       "type": "mssql",
       "connectionId": "ConnectionStrings:MySqlConnectionString",
       "dynamicId": null
+    },
+    "apis1": {
+      "type": "apis"
     }
   }
 }

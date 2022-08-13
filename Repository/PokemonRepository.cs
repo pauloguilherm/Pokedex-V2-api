@@ -9,7 +9,7 @@ namespace Pokedex_v2_api.Repository
         {
             _context = context;
         }
-        public async Task<dynamic> GetAll(long id)
+        public async Task<dynamic> GetAll(int id)
         {
             var pokemons = _context.favorites.Select(x => x).Where(x => x.CoachId == id);
             if(pokemons == null)
@@ -18,18 +18,18 @@ namespace Pokedex_v2_api.Repository
             }
             return pokemons;
         }
-        public async Task<Pokemon> Create(Pokemon pokemon)
+        public async Task<dynamic> Create(Pokemon pokemon)
         {
             try
-            {
-                _context.favorites.Add(pokemon);
-                await _context.SaveChangesAsync();
-                return pokemon;
-            }
+                {
+                    await _context.favorites.AddAsync(pokemon);
+                    await _context.SaveChangesAsync();
+                    return pokemon;
+                }
             catch
-            {
-                return null;
-            }
+                {
+                    return null;
+                }
            
         }
         public async Task<dynamic> Delete(Pokemon pokemon)
