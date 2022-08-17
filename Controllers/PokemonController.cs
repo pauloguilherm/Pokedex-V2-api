@@ -43,7 +43,7 @@ namespace Pokedex_v2_api.Controllers
 
         [HttpDelete]
         [Route("DeleteFavorite")]
-        [Authorize]
+        
 
         public async Task<ActionResult<dynamic>> DropPokemon([FromBody] Pokemon pokemon)
         {

@@ -43,9 +43,9 @@ namespace Pokedex_v2_api.Repository
                     await _context.SaveChangesAsync();
                     return new { success = true };
                 }
-                catch
+                catch(Exception ex)
                 {
-                    return null;
+                    return new { message = ex.ToString() };
                 }
             }
             return null;
